@@ -9,6 +9,8 @@ else
     mkdir lib
 fi
 
+cd postgres
+
 if [ -e "./src/Makefile.global" ]
 then
     make -C ./src/interfaces/libpq distclean
@@ -23,7 +25,7 @@ SDKROOT=$DEVROOT/SDKs/iPhoneSimulator7.1.sdk
   CFLAGS="$CPPFLAGS -miphoneos-version-min=7.0 -pipe -no-cpp-precomp -isysroot $SDKROOT" \
   CPP="/usr/bin/cpp $CPPFLAGS"
 make -C src/interfaces/libpq
-cp src/interfaces/libpq/libpq.a lib/libpq_i386.a
+cp src/interfaces/libpq/libpq.a ../lib/libpq_i386.a
 
 make -C ./src/interfaces/libpq distclean
 
@@ -37,7 +39,7 @@ SDKROOT=$DEVROOT/SDKs/iPhoneOS7.1.sdk
   CPP="/usr/bin/cpp -D__arm__=1 $CPPFLAGS" \
   LD=$DEVROOT/usr/bin/ld
 make -C src/interfaces/libpq
-cp src/interfaces/libpq/libpq.a lib/libpq_armv7.a
+cp src/interfaces/libpq/libpq.a ../lib/libpq_armv7.a
 
 make -C ./src/interfaces/libpq distclean
 
@@ -51,7 +53,7 @@ SDKROOT=$DEVROOT/SDKs/iPhoneOS7.1.sdk
   CPP="/usr/bin/cpp -D__arm__=1 $CPPFLAGS" \
   LD=$DEVROOT/usr/bin/ld
 make -C src/interfaces/libpq
-cp src/interfaces/libpq/libpq.a lib/libpq_armv7s.a
+cp src/interfaces/libpq/libpq.a ../lib/libpq_armv7s.a
 
 make -C ./src/interfaces/libpq distclean
 
@@ -65,6 +67,8 @@ SDKROOT=$DEVROOT/SDKs/iPhoneOS7.1.sdk
   CPP="/usr/bin/cpp -D__arm64__=1 $CPPFLAGS" \
   LD=$DEVROOT/usr/bin/ld
 make -C src/interfaces/libpq
-cp src/interfaces/libpq/libpq.a lib/libpq_arm64.a
+cp src/interfaces/libpq/libpq.a ../lib/libpq_arm64.a
+
+cd ..
 
 lipo -create lib/libpq_i386.a lib/libpq_armv7.a lib/libpq_armv7s.a lib/libpq_arm64.a -output lib/libpq.a
